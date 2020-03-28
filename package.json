@@ -1,0 +1,22 @@
+{
+  "name": "vs-code-deprecated",
+  "version": "0.0.1",
+  "description": "VS Code extension that checks for deprecated imports",
+  "main": "src/extension.ts",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/balajmarius/vs-code-deprecated.git"
+  },
+  "keywords": [
+    "vs-code",
+    "extension",
+    "deprecated"
+  ],
+  "author": "Balaj Marius",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/balajmarius/vs-code-deprecated/issues"
+  },
+  "homepage": "https://github.com/balajmarius/vs-code-deprecated#readme"
+}
