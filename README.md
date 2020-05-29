@@ -1,4 +1,4 @@
-# VS Code Deprecated 🖌
+# VSCode Deprecated 👨‍🎤
 
 > Extension that checks if imports are marked as deprecated
 
