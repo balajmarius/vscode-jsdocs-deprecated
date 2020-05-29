@@ -3,6 +3,20 @@
   "version": "0.0.1",
   "description": "VSCode extension that checks for deprecated imports",
   "main": "src/extension.ts",
+  "activationEvents": [
+    "onLanguage:javascript",
+    "onLanguage:javascriptreact",
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "title": "VSCode Deprecated",
+        "command": "vsCodeDeprecated.showAnnotations"
+      }
+    ]
+  },
   "engines": {
     "vscode": "^1.34.0"
   },
@@ -15,10 +29,19 @@
     "extension",
     "deprecated"
   ],
-  "author": "Balaj Marius",
+  "author": "Marius Balaj",
+  "contributors": [
+    "Ioana Verebi"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/balajmarius/vscode-deprecated/issues"
   },
-  "homepage": "https://github.com/balajmarius/vscode-deprecated#readme"
+  "homepage": "https://github.com/balajmarius/vscode-deprecated#readme",
+  "devDependencies": {
+    "@types/node": "^14.0.5",
+    "@types/vscode": "^1.45.1",
+    "eslint": "^7.1.0",
+    "typescript": "^3.9.3"
+  }
 }
