@@ -10,11 +10,56 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deactivate = exports.activate = void 0;
+const ts = require("typescript");
 const vscode = require("vscode");
-function onDidUpdateTextDocument(document, editor) {
-    return __awaiter(this, void 0, void 0, function* () { });
+const JSDOC_DEPRECATED_ANNOTATION = "*@deprecated*";
+const DEFAULT_DECORATION_TYPE = vscode.window.createTextEditorDecorationType({
+    textDecoration: "line-through",
+});
+function getIdentifierPositions(document) {
+    const positions = [];
+    const file = document.uri.fsPath;
+    const program = ts.createProgram([file], { allowJs: true });
+    const source = program.getSourceFile(file);
+    const visit = (node) => {
+        if (ts.isIdentifier(node)) {
+            positions.push(document.positionAt(node.end));
+        }
+        ts.forEachChild(node, visit);
+    };
+    ts.forEachChild(source, visit);
+    return positions;
 }
-function activate(context) {
+function getHoverAnnotations(document, positions) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return Promise.all(positions.map((position) => vscode.commands.executeCommand("vscode.executeHoverProvider", document.uri, position)));
+    });
+}
+function containsDeprecatedAnnotation(hovers) {
+    return hovers.some((hover) => hover.contents.some((content) => content.value.includes(JSDOC_DEPRECATED_ANNOTATION)));
+}
+function getDeprecatedPositions(hovers) {
+    return hovers.reduce((positions, hover) => {
+        if (containsDeprecatedAnnotation(hover)) {
+            return [...positions, hover[0].range];
+        }
+        return positions;
+    }, []);
+}
+function paintAnnotations(editor, positions) {
+    editor.setDecorations(DEFAULT_DECORATION_TYPE, positions);
+}
+function onDidUpdateTextDocument(document, editor) {
+    return __awaiter(this, void 0, void 0, function* () {
+        if (editor) {
+            const positions = getIdentifierPositions(document);
+            const annotations = yield getHoverAnnotations(document, positions);
+            const deprecated = getDeprecatedPositions(annotations);
+            paintAnnotations(editor, deprecated);
+        }
+    });
+}
+function activate() {
     vscode.workspace.onDidSaveTextDocument((document) => {
         onDidUpdateTextDocument(document, vscode.window.activeTextEditor);
     });
