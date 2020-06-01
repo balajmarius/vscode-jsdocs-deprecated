@@ -1,5 +1,6 @@
 {
   "name": "vscode-deprecated",
+  "icon": "images/icon.png",
   "version": "0.0.1",
   "description": "VSCode extension that checks for deprecated imports",
   "main": "./dist/extension.js",

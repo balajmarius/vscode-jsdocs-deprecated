@@ -1,5 +1,11 @@
-# VSCode Deprecated 🚨
+# VS Code Deprecated 🚨
 
-> Extension that highlights deprecated TS/JS imports
+> Leverage the power of JSDocs. Show deprecated usages in the editor, as you type.
 
-<img src="https://www.publicdomainpictures.net/pictures/140000/velka/writing-hand-1443450634AKr.jpg" width="350" height="auto" />
+### Installation
+
+In the command palette (CMD + SHIFT + P) select “Install Extension” and choose "VS Code Deprecated".
+
+### Behind the scenes
+
+We plug into VSCode and use the hover functionality to find deprecated identifiers. So if your project is configured properly and the VS Code hover shows you that tiny deprecated warning, we will show it, too.
