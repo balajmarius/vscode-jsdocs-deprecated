@@ -1,9 +1,9 @@
 {
   "name": "vscode-deprecated",
   "displayName": "VS Code Deprecated",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "MIT",
   "icon": "images/icon.png",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "VSCode extension that checks for deprecated imports",
   "main": "./dist/extension.js",
   "activationEvents": [
@@ -44,7 +44,6 @@
   "contributors": [
     "Ioana Verebi"
   ],
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/balajmarius/vscode-deprecated/issues"
   },
