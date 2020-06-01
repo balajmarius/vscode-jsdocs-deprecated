@@ -6,7 +6,7 @@ module.exports = {
   },
   extends: ["plugin:@typescript-eslint/recommended"],
   rules: {
-    "max-len": ["error", 110],
-    "@typescript-eslint/no-inferrable-types": false,
+    "max-len": ["error", 120],
+    "@typescript-eslint/no-inferrable-types": 0,
   },
 };
