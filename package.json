@@ -23,7 +23,8 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint ./src/**.ts"
   },
   "repository": {
     "type": "git",
