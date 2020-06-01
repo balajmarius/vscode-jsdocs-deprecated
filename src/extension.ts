@@ -2,7 +2,6 @@ import * as ts from "typescript";
 import * as vscode from "vscode";
 
 const JSDOC_DEPRECATED_ANNOTATION: string = "*@deprecated*";
-const DEFAULT_DECORATION_TYPE: vscode.DecorationRenderOptions = { textDecoration: "line-through" };
 
 function getIdentifierPositions(document: vscode.TextDocument): vscode.Position[] {
   const positions: vscode.Position[] = [];
@@ -72,9 +71,9 @@ async function onDidUpdateTextDocument(
 }
 
 export function activate(): void {
-  const decorationType: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
-    DEFAULT_DECORATION_TYPE
-  );
+  const decorationType: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType({
+    textDecoration: "line-through",
+  });
 
   setImmediate(() =>
     onDidUpdateTextDocument(vscode.window.activeTextEditor.document, vscode.window.activeTextEditor, decorationType)
