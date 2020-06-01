@@ -2,7 +2,7 @@
   "name": "vscode-deprecated",
   "displayName": "VS Code Deprecated",
   "icon": "images/icon.png",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "VSCode extension that checks for deprecated imports",
   "main": "./dist/extension.js",
   "activationEvents": [
