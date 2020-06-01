@@ -2,6 +2,8 @@
 
 > Leverage the power of JSDocs. Show deprecated usages in the editor, as you type.
 
+<img src="https://github.com/balajmarius/vscode-deprecated/blob/master/images/banner.png?raw=true" alt="VS Code Deprecated" />
+
 ### Installation
 
 In the command palette (CMD + SHIFT + P) select “Install Extension” and choose "VS Code Deprecated".
