@@ -2,9 +2,7 @@ import * as ts from "typescript";
 import * as vscode from "vscode";
 
 const JSDOC_DEPRECATED_ANNOTATION: string = "*@deprecated*";
-const DEFAULT_DECORATION_TYPE: vscode.DecorationRenderOptions = vscode.window.createTextEditorDecorationType({
-  textDecoration: "line-through",
-});
+const DEFAULT_DECORATION_TYPE: vscode.DecorationRenderOptions = { textDecoration: "line-through" };
 
 function getIdentifierPositions(document: vscode.TextDocument): vscode.Position[] {
   const positions: vscode.Position[] = [];
@@ -27,10 +25,11 @@ function getIdentifierPositions(document: vscode.TextDocument): vscode.Position[
 async function getHoverAnnotations(
   document: vscode.TextDocument,
   positions: vscode.Position[]
-): Promise<unknown> {
+): Promise<vscode.Hover[][]> {
   return Promise.all(
-    positions.map((position: vscode.Position) =>
-      vscode.commands.executeCommand("vscode.executeHoverProvider", document.uri, position)
+    positions.map(
+      (position: vscode.Position): Thenable<vscode.Hover[]> =>
+        vscode.commands.executeCommand("vscode.executeHoverProvider", document.uri, position)
     )
   );
 }
@@ -43,36 +42,50 @@ function containsDeprecatedAnnotation(hovers: vscode.Hover[]): boolean {
   );
 }
 
-function getDeprecatedPositions(hovers: vscode.Hover[][]): vscode.Position[] {
-  return hovers.reduce((positions: vscode.Position[], hover: vscode.Hover[]) => {
+function getDeprecatedRanges(hovers: vscode.Hover[][]): vscode.Range[] {
+  return hovers.reduce((ranges: vscode.Range[], hover: vscode.Hover[]) => {
     if (containsDeprecatedAnnotation(hover)) {
-      return [...positions, hover[0].range];
+      return [...ranges, hover.pop().range as vscode.Range];
     }
-    return positions;
+    return ranges;
   }, []);
 }
 
-function paintAnnotations(editor: vscode.TextEditor, positions: vscode.Position[]) {
-  editor.setDecorations(DEFAULT_DECORATION_TYPE, positions);
+function paintAnnotations(
+  editor: vscode.TextEditor,
+  ranges: vscode.Range[],
+  decorationType: vscode.TextEditorDecorationType
+) {
+  editor.setDecorations(decorationType, []);
+  editor.setDecorations(decorationType, ranges);
 }
 
-async function onDidUpdateTextDocument(document: vscode.TextDocument, editor?: vscode.TextEditor) {
+async function onDidUpdateTextDocument(
+  document: vscode.TextDocument,
+  editor: vscode.TextEditor,
+  decorationType: vscode.TextEditorDecorationType
+) {
   if (editor) {
     const positions: vscode.Position[] = getIdentifierPositions(document);
     const annotations: vscode.Hover[][] = await getHoverAnnotations(document, positions);
-    const deprecated: vscode.Position[] = getDeprecatedPositions(annotations);
+    const deprecated: vscode.Range[] = getDeprecatedRanges(annotations);
 
-    paintAnnotations(editor, deprecated);
+    paintAnnotations(editor, deprecated, decorationType);
   }
 }
 
-export function activate() {
+export function activate(): void {
+  const decorationType: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
+    DEFAULT_DECORATION_TYPE
+  );
+
+  vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
+    onDidUpdateTextDocument(document, vscode.window.activeTextEditor, decorationType);
+  });
   vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-    onDidUpdateTextDocument(document, vscode.window.activeTextEditor);
+    onDidUpdateTextDocument(document, vscode.window.activeTextEditor, decorationType);
   });
   vscode.window.onDidChangeActiveTextEditor((editor: vscode.TextEditor) => {
-    onDidUpdateTextDocument(editor.document, editor);
+    onDidUpdateTextDocument(editor.document, editor, decorationType);
   });
 }
-
-export function deactivate() {}

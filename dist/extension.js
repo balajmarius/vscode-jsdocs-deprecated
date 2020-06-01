@@ -9,13 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deactivate = exports.activate = void 0;
+exports.activate = void 0;
 const ts = require("typescript");
 const vscode = require("vscode");
 const JSDOC_DEPRECATED_ANNOTATION = "*@deprecated*";
-const DEFAULT_DECORATION_TYPE = vscode.window.createTextEditorDecorationType({
-    textDecoration: "line-through",
-});
+const DEFAULT_DECORATION_TYPE = { textDecoration: "line-through" };
 function getIdentifierPositions(document) {
     const positions = [];
     const file = document.uri.fsPath;
@@ -38,35 +36,38 @@ function getHoverAnnotations(document, positions) {
 function containsDeprecatedAnnotation(hovers) {
     return hovers.some((hover) => hover.contents.some((content) => content.value.includes(JSDOC_DEPRECATED_ANNOTATION)));
 }
-function getDeprecatedPositions(hovers) {
-    return hovers.reduce((positions, hover) => {
+function getDeprecatedRanges(hovers) {
+    return hovers.reduce((ranges, hover) => {
         if (containsDeprecatedAnnotation(hover)) {
-            return [...positions, hover[0].range];
+            return [...ranges, hover.pop().range];
         }
-        return positions;
+        return ranges;
     }, []);
 }
-function paintAnnotations(editor, positions) {
-    editor.setDecorations(DEFAULT_DECORATION_TYPE, positions);
+function paintAnnotations(editor, ranges, decorationType) {
+    editor.setDecorations(decorationType, []);
+    editor.setDecorations(decorationType, ranges);
 }
-function onDidUpdateTextDocument(document, editor) {
+function onDidUpdateTextDocument(document, editor, decorationType) {
     return __awaiter(this, void 0, void 0, function* () {
         if (editor) {
             const positions = getIdentifierPositions(document);
             const annotations = yield getHoverAnnotations(document, positions);
-            const deprecated = getDeprecatedPositions(annotations);
-            paintAnnotations(editor, deprecated);
+            const deprecated = getDeprecatedRanges(annotations);
+            paintAnnotations(editor, deprecated, decorationType);
         }
     });
 }
 function activate() {
+    const decorationType = vscode.window.createTextEditorDecorationType(DEFAULT_DECORATION_TYPE);
+    vscode.workspace.onDidOpenTextDocument((document) => {
+        onDidUpdateTextDocument(document, vscode.window.activeTextEditor, decorationType);
+    });
     vscode.workspace.onDidSaveTextDocument((document) => {
-        onDidUpdateTextDocument(document, vscode.window.activeTextEditor);
+        onDidUpdateTextDocument(document, vscode.window.activeTextEditor, decorationType);
     });
     vscode.window.onDidChangeActiveTextEditor((editor) => {
-        onDidUpdateTextDocument(editor.document, editor);
+        onDidUpdateTextDocument(editor.document, editor, decorationType);
     });
 }
 exports.activate = activate;
-function deactivate() { }
-exports.deactivate = deactivate;
