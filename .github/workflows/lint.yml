@@ -8,4 +8,5 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - run: npm install
+      - run: npm run types
       - run: npm run lint
