@@ -60,6 +60,7 @@ function onDidUpdateTextDocument(document, editor, decorationType) {
 }
 function activate() {
     const decorationType = vscode.window.createTextEditorDecorationType(DEFAULT_DECORATION_TYPE);
+    setImmediate(() => onDidUpdateTextDocument(vscode.window.activeTextEditor.document, vscode.window.activeTextEditor, decorationType));
     vscode.workspace.onDidOpenTextDocument((document) => {
         onDidUpdateTextDocument(document, vscode.window.activeTextEditor, decorationType);
     });

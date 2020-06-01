@@ -16,7 +16,6 @@ function getIdentifierPositions(document: vscode.TextDocument): vscode.Position[
     }
     ts.forEachChild(node, visit);
   };
-
   ts.forEachChild(source, visit);
 
   return positions;
@@ -36,9 +35,7 @@ async function getHoverAnnotations(
 
 function containsDeprecatedAnnotation(hovers: vscode.Hover[]): boolean {
   return hovers.some((hover: vscode.Hover) =>
-    hover.contents.some((content: vscode.MarkdownString) =>
-      content.value.includes(JSDOC_DEPRECATED_ANNOTATION)
-    )
+    hover.contents.some((content: vscode.MarkdownString) => content.value.includes(JSDOC_DEPRECATED_ANNOTATION))
   );
 }
 
@@ -77,6 +74,10 @@ async function onDidUpdateTextDocument(
 export function activate(): void {
   const decorationType: vscode.TextEditorDecorationType = vscode.window.createTextEditorDecorationType(
     DEFAULT_DECORATION_TYPE
+  );
+
+  setImmediate(() =>
+    onDidUpdateTextDocument(vscode.window.activeTextEditor.document, vscode.window.activeTextEditor, decorationType)
   );
 
   vscode.workspace.onDidOpenTextDocument((document: vscode.TextDocument) => {
