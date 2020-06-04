@@ -1,6 +1,6 @@
 {
   "name": "vscode-jsdocs-deprecated",
-  "displayName": "VS Code Deprecated",
+  "displayName": "VS Code JSDocs Deprecated",
   "license": "MIT",
   "icon": "images/icon.png",
   "version": "0.3.0",
