@@ -1,5 +1,5 @@
 {
-  "name": "vscode-deprecated",
+  "name": "vscode-jsdocs-deprecated",
   "displayName": "VS Code Deprecated",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -32,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:balajmarius/vscode-deprecated.git"
+    "url": "git@github.com:balajmarius/vscode-jsdocs-deprecated.git"
   },
   "keywords": [
     "vscode",
@@ -45,9 +45,9 @@
     "Ioana Verebi"
   ],
   "bugs": {
-    "url": "https://github.com/balajmarius/vscode-deprecated/issues"
+    "url": "https://github.com/balajmarius/vscode-jsdocs-deprecated/issues"
   },
-  "homepage": "https://github.com/balajmarius/vscode-deprecated#readme",
+  "homepage": "https://github.com/balajmarius/vscode-jsdocs-deprecated#readme",
   "dependencies": {
     "typescript": "^3.9.3"
   },
