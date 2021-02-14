@@ -2,6 +2,14 @@
 
 > Leverage the power of JSDocs. Show deprecated usages in the editor, as you type.
 
+---
+
+### ⚠️ VS Code now [supports](https://code.visualstudio.com/updates/v1_49#_deprecated-tag-support-for-javascript-and-typescript "supports") the `@deprecated` JSDoc tag in JavaScript and TypeScript files by default.
+
+You may not need the extension anymore.
+
+---
+
 <img src="https://github.com/balajmarius/vscode-jsdocs-deprecated/blob/master/static/tutorial.gif?raw=true" alt="VS Code JSDocs Deprecated" />
 
 # Installation
