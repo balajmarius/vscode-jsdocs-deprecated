@@ -1,4 +1,4 @@
-# VS Code JSDocs Deprecated 🚨
+# VS Code JSDocs Deprecated
 
 > Leverage the power of JSDocs. Show deprecated usages in the editor, as you type.
 
