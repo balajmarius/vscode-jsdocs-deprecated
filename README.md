@@ -2,26 +2,38 @@
 
 > Leverage the power of JSDocs. Show deprecated usages in the editor, as you type.
 
----
+Marks deprecated JavaScript and TypeScript usages in the editor as you type.
 
-### ⚠️ VS Code now [supports](https://code.visualstudio.com/updates/v1_49#_deprecated-tag-support-for-javascript-and-typescript "supports") the `@deprecated` JSDoc tag in JavaScript and TypeScript files by default.
+VS Code now [supports](https://code.visualstudio.com/updates/v1_49#_deprecated-tag-support-for-javascript-and-typescript) the `@deprecated` JSDoc tag in JavaScript and TypeScript files by default. You may not need the extension anymore.
 
-You may not need the extension anymore.
+[Install from the Marketplace](https://marketplace.visualstudio.com/items?itemName=balajmarius.vscode-deprecated)
 
----
+<img src="static/tutorial.gif" alt="A JavaScript file with deprecated usages struck through" width="480" />
 
-<img src="https://github.com/balajmarius/vscode-jsdocs-deprecated/blob/master/static/tutorial.gif?raw=true" alt="VS Code JSDocs Deprecated" />
+## Installation
 
-# Installation
+In the Command Palette (**Cmd + Shift + P**) select **Install Extension** and choose **VS Code JSDocs Deprecated**.
 
-In the command palette (CMD + SHIFT + P) select “Install Extension” and choose "VS Code JSDocs Deprecated".
+## Usage
 
-# Usage
+The extension checks when you open a file, change it, or switch editors. There is no command to run. Install it and work as usual. Deprecated usages are marked in the editor.
 
-We detect when you open a file, when you change something in it, when you switch editors. So there is no command to run, just install the extension and work as you normally would. We will mark any deprecated usages in the editor.
+<img src="static/banner.png" alt="Deprecated identifier marked in the editor" width="480" />
 
-<img src="https://github.com/balajmarius/vscode-jsdocs-deprecated/blob/master/static/banner.png?raw=true" alt="VS Code JSDocs Deprecated" />
+## Behind the scenes
 
-# Behind the scenes
+The extension plugs into VS Code and uses hover information to find deprecated identifiers. If the project is configured properly and hover shows the deprecated warning, the extension shows it too.
 
-We plug into VSCode and use the hover functionality to find deprecated identifiers. So if your project is configured properly and the VS Code hover shows you that tiny deprecated warning, we will show it, too.
+## Development
+
+```bash
+npm install
+npm run compile
+```
+
+- `npm run watch` — compile on change.
+- `npm run lint` — lint `src`.
+
+## License
+
+[MIT](LICENSE).
